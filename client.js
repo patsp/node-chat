@@ -19,7 +19,9 @@ var DNode = require('dnode');
 var EventEmitter = require('events').EventEmitter;
 var Lazy = require('lazy');
 
-var dnode = DNode.connect(8081, function (chat, conn) {
+var DEFAULT_PORT = 8081;
+
+var dnode = DNode.connect(DEFAULT_PORT, function (chat, conn) {
     var em = new EventEmitter;
     em.on('error', function (err) {
         console.log('error occured: ' + err);

@@ -25,6 +25,9 @@ var obj = function (link) {
     return new F();
 };
 
+var DEFAULT_PORT = 8081;
+var DEFAULT_WEB_PORT = 8080;
+
 var chat = obj(new EventEmitter);
 // the message buffer stores the latest MAX_MSG_BUF_LEN messages
 // -> if a new user joins he gets the latest messages, if there are any.
@@ -43,7 +46,7 @@ chat.users = {};
 var webserver = connect.createServer();
 webserver.use(connect.static(__dirname));
 webserver.use(require('browserify')({ require : 'dnode' }));
-webserver.listen(8080);
+webserver.listen(DEFAULT_WEB_PORT);
 
 DNode(function (client, conn) {
     this.login = function (name, emitCallback) {
@@ -72,7 +75,7 @@ DNode(function (client, conn) {
     this.sendMessage = function (msg) {
         chat.newMessage(chat.users[conn.id].name, msg);
     };
-}).listen(8081).listen(webserver);
+}).listen(DEFAULT_PORT).listen(webserver);
 
 console.log('chat listening on localhost:8081');
 console.log('webchat listening on http://localhost:8080/');
