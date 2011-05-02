@@ -11,7 +11,7 @@ from stdin and sends it to all other clients.
 Received messages are written to stdout.
 
 The web-client uses [jQuery](http://jquery.org) with
-(this)[http://fstoke.me/jquery/window/] window plugin
+[this](http://fstoke.me/jquery/window/) window plugin
 to provide chat windows.
 
 ##INSTALLATION
