@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Simple chat!</title>
+
+    <link type="text/css"
+          href="/jquery/themes/smoothness/jquery-ui-1.8.11.custom.css"
+          rel="stylesheet" />
+    <link type="text/css"
+          href="/jquery/window/css/jquery.window.css" rel="stylesheet" />
+
+    <script src="/browserify.js" type="text/javascript"></script>
+    <script src="/jquery/jquery-1.5.2.min.js" type="text/javascript"></script>
+    <script src="/jquery/jquery-ui-1.8.11.custom.min.js"
+            type="text/javascript"></script>
+    <script src="/jquery/window/jquery.window.min.js"
+            type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var DNode = require('dnode');
+            var EventEmitter = require('events').EventEmitter;
+
+            $('#btnStart').click(function (event) {
+                DNode.connect(function (chat, conn) {
+                    $.window({
+                        title: "chat window",
+                        content: '<div style="height: 80%; overflow: auto;"' +
+                                       ' id="output' + conn.id + '"></div>' +
+                                 '<div style="height: 20%;">' +
+                                 '<input id="input' + conn.id +
+                                       '" type="text" /></div>',
+                        onClose: function(wnd) {
+                            conn.end();
+                        }
+                    });
+
+                    var em = new EventEmitter;
+                    em.on('message', function (msg) {
+                        $('#output' + conn.id)
+                            .append($('<div></div>').text(msg));
+                    });
+
+                    var emit = em.emit.bind(em);
+                    chat.login($('#name').val() || 'guest', emit);
+
+                    $('#input' + conn.id).keydown(function (event) {
+                        if (event.keyCode === 13 /* ENTER */) {
+                            chat.sendMessage($('#input' + conn.id).val());
+                            $('#input' + conn.id).val('');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+  </head>
+  <body>
+    Name:&nbsp;<input id="name" type="text" />
+    <input id="btnStart" type="button" value="start Chat" />
+  </body>
+</html>
