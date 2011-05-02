@@ -22,7 +22,7 @@ var Lazy = require('lazy');
 var DEFAULT_PORT = 8081;
 
 var dnode = DNode.connect(DEFAULT_PORT, function (chat, conn) {
-    var em = new EventEmitter;
+    var em = new EventEmitter();
     em.on('error', function (err) {
         console.log('error occured: ' + err);
     });

@@ -28,7 +28,7 @@ var obj = function (link) {
 var DEFAULT_PORT = 8081;
 var DEFAULT_WEB_PORT = 8080;
 
-var chat = obj(new EventEmitter);
+var chat = obj(new EventEmitter());
 // the message buffer stores the latest MAX_MSG_BUF_LEN messages
 // -> if a new user joins he gets the latest messages, if there are any.
 chat.MAX_MSG_BUF_LEN = 10;
